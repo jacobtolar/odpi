@@ -1,3 +1,16 @@
+# Yahoo Fork of ODPI
+This is a fork of ODPI that adds a setting to enable LOB prefetching. If you're
+fetching a lot of LOB data this is a huge boon to performance.
+
+Unfortunately I'm unable to sign Oracle's CLA (and odpi doesn't accept contributions
+currently, anyways) so this fork is the best I can do. If that changes in the future,
+these changes can be merged into the original codebase and this fork abandoned.
+
+The branch with these changes is the default branch on this repo, yahoo-master.
+I'll try to ocassionally merge in changes from upstream as needed. Feel free to
+open an issue with any questions or issues.
+
+
 # ODPI-C version 2.0.0-rc.2
 
 Oracle Database Programming Interface for C (ODPI-C) is an open source
