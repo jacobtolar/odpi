@@ -23,6 +23,7 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <limits.h>
+#include <stdbool.h>
 #include "dpi.h"
 
 // define debugging level (defined in dpiGlobal.c)
@@ -196,6 +197,8 @@ extern long dpiDebugLevel;
 #define DPI_OCI_ATTR_CONNECTION_CLASS               425
 #define DPI_OCI_ATTR_PURITY                         426
 #define DPI_OCI_ATTR_RECEIVE_TIMEOUT                436
+#define DPI_OCI_ATTR_DEFAULT_LOBPREFETCH_SIZE       438
+#define DPI_OCI_ATTR_LOBPREFETCH_LENGTH             440
 #define DPI_OCI_ATTR_UB8_ROW_COUNT                  457
 #define DPI_OCI_ATTR_SPOOL_AUTH                     460
 #define DPI_OCI_ATTR_LTXID                          462

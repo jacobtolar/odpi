@@ -451,6 +451,7 @@ struct dpiConnCreateParams {
     const char *outTag;
     uint32_t outTagLength;
     int outTagFound;
+    uint32_t lobPrefetchSize;
 };
 
 // structure used for transferring data to/from ODPI-C

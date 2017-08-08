@@ -206,6 +206,14 @@ static int dpiConn__create(dpiConn *conn, const char *userName,
     if (dpiOci__sessionBegin(conn, credentialType,
             createParams->authMode | DPI_OCI_STMT_CACHE, error) < 0)
         return DPI_FAILURE;
+
+    // Set the lobprefetchsize
+    if (createParams->lobPrefetchSize) {
+        if (dpiOci__attrSet(conn->sessionHandle, DPI_OCI_HTYPE_SESSION, &(createParams->lobPrefetchSize),
+                0, DPI_OCI_ATTR_DEFAULT_LOBPREFETCH_SIZE, "set lob prefetch size", error) < 0)
+            return DPI_FAILURE;
+    }
+
     return dpiConn__getServerCharset(conn, error);
 }
 
@@ -323,6 +331,14 @@ int dpiConn__get(dpiConn *conn, const char *userName, uint32_t userNameLength,
     dpiOci__handleFree(authInfo, DPI_OCI_HTYPE_AUTHINFO);
     if (status < 0)
         return status;
+
+    // Set the lobprefetchsize
+    if (createParams->lobPrefetchSize) {
+        if (dpiOci__attrSet(conn->sessionHandle, DPI_OCI_HTYPE_SESSION, &(createParams->lobPrefetchSize),
+                0, DPI_OCI_ATTR_DEFAULT_LOBPREFETCH_SIZE, "set lob prefetch size", error) < 0)
+            return DPI_FAILURE;
+    }
+
     return dpiConn__getServerCharset(conn, error);
 }
 

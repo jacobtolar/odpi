@@ -465,6 +465,27 @@ int dpiStmt__define(dpiStmt *stmt, uint32_t pos, dpiVar *var, dpiError *error)
             return DPI_FAILURE;
     }
 
+
+    // enable prefetch length on *lob/bfile columns.
+    // necessary, per http://docs.oracle.com/database/122/LNOCI/lobs-and-bfile-operations.htm#LNOCI07100
+    // ex: https://github.com/oracle/node-oracledb/blob/1437428f7c009c2748f249e4629aec5aade2e651/src/dpi/src/dpiStmtImpl.cpp
+    // FIXME: perhaps shouldn't be enabled *always* but only if prefetch is enabled.
+    bool prefetch_length = true;
+
+    switch (var->type->oracleTypeNum) {
+      case DPI_ORACLE_TYPE_CLOB:
+      case DPI_ORACLE_TYPE_NCLOB:
+      case DPI_ORACLE_TYPE_BLOB:
+      case DPI_ORACLE_TYPE_BFILE:
+        if (dpiOci__attrSet(defineHandle, DPI_OCI_HTYPE_DEFINE, &prefetch_length,
+              0, DPI_OCI_ATTR_LOBPREFETCH_LENGTH, "set prefetch length", error) < 0) {
+          return DPI_FAILURE;
+        }
+        break;
+      default:
+        break;
+   }
+
     // define objects, if applicable
     if (var->objectIndicator && dpiOci__defineObject(var, defineHandle,
             error) < 0)
